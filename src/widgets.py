@@ -6,7 +6,7 @@ from tkinter import filedialog
 
 class Header(customtkinter.CTkFrame):
     def __init__(self, master, title, subtitle):
-        super().__init__(master)
+        super().__init__(master, fg_color="transparent")
         self.pack(pady=10)
 
         self.title_label = customtkinter.CTkLabel(
@@ -14,19 +14,25 @@ class Header(customtkinter.CTkFrame):
             text=title,
             font=("Inter", 32, "bold"),
         )
-        self.title_label.pack(pady=10, padx=20)
+        self.title_label.pack(pady=5, padx=10)
 
         self.subtitle_label = customtkinter.CTkLabel(
             self,
             text=subtitle,
             font=("Inter", 16),
         )
-        self.subtitle_label.pack(pady=10, padx=20)
+        self.subtitle_label.pack(pady=5, padx=20)
 
 
 class UploadPhoto(customtkinter.CTkFrame):
-    def __init__(self, master):
-        super().__init__(master)
+    def __init__(self, master, title):
+        super().__init__(master, width=400, height=300)
+        self.pack_propagate(False)
+
+        self.title_label = customtkinter.CTkLabel(
+            self, text=title, font=("Inter", 16, "bold")
+        )
+        self.title_label.pack(pady=(10, 0))
 
         self.file_path = None
         self.image_label = customtkinter.CTkLabel(
@@ -37,7 +43,7 @@ class UploadPhoto(customtkinter.CTkFrame):
         self.upload_button = customtkinter.CTkButton(
             self, text="Upload Photo", command=self.upload_image
         )
-        self.upload_button.pack(pady=50, padx=50)
+        self.upload_button.pack(pady=20, padx=20, side="bottom")
 
     def upload_image(self):
         file_path = filedialog.askopenfilename(
@@ -51,7 +57,7 @@ class UploadPhoto(customtkinter.CTkFrame):
         if self.file_path:
             image = Image.open(self.file_path)
             width, height = image.size
-            max_size = (300, 300)
+            max_size = (300, 170)
 
             # Calculate aspect ratio
             if width > max_size[0] or height > max_size[1]:
@@ -64,6 +70,50 @@ class UploadPhoto(customtkinter.CTkFrame):
 
         else:
             print("No image file selected.")
+
+
+class DirectorySelector(customtkinter.CTkFrame):
+    def __init__(self, master, title):
+        super().__init__(master, width=400, height=200)
+        self.pack_propagate(False)
+
+        self.title_label = customtkinter.CTkLabel(
+            self, text=title, font=("Inter", 16, "bold")
+        )
+        self.title_label.pack(pady=(10, 0))
+
+        self.folder_path = None
+
+        self.folder_label = customtkinter.CTkLabel(
+            self, text="No folder selected", font=("Inter", 14)
+        )
+        self.folder_label.pack(pady=30, padx=10)
+
+        self.folder_button = customtkinter.CTkButton(
+            self, text="Select Folder", command=self.select_folder
+        )
+        self.folder_button.pack(pady=20, padx=10, side="bottom")
+
+    def select_folder(self):
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            self.folder_path = folder_path
+            self.folder_label.configure(text=folder_path)
+
+
+class CheckButton(customtkinter.CTkButton):
+    def __init__(self, master):
+        super().__init__(
+            master,
+            text="Check",
+            font=("Inter", 20, "bold"),
+            width=400,
+            height=70,
+            command=self.test,
+        )
+
+    def test(self):
+        print("hello")
 
 
 class ThemeToggle(customtkinter.CTkButton):

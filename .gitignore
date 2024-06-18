@@ -1,5 +1,7 @@
-checklist.md
+/checklist.md
+
+.vscode/settings.json
 
 src/__pycache__/
 
-**/.vscode/
+/test.py

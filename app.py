@@ -1,5 +1,5 @@
 import customtkinter
-from src.widgets import Header, UploadPhoto, ThemeToggle
+from src.widgets import Header, CheckButton, DirectorySelector, UploadPhoto, ThemeToggle
 import os
 from tkinter import filedialog
 
@@ -12,15 +12,14 @@ customtkinter.set_appearance_mode("light")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("800x600")
-        self.title("CTk example")
+        self.geometry("1024x768")
+        self.title("Imsearch")
         self.THEME = "light"
         self.configure(
             pady=20,
             padx=20,
         )
-
-        # Initialize Header
+        # Heading Section
         self.header = Header(
             self,
             title="Imsearch",
@@ -28,32 +27,33 @@ class App(customtkinter.CTk):
         )
         self.header.pack()
 
-        # Initialize UploadPhoto widget
-        self.upload_photo = UploadPhoto(self)
-        self.upload_photo.pack()
+        # Upload Section
+        self.upload_section = customtkinter.CTkFrame(self, fg_color="transparent")
+        self.upload_section.pack()
 
-        ThemeToggle(self)
+        # UploadPhoto widget
+        self.upload_photo = UploadPhoto(self.upload_section, title="Select an Image")
+        self.upload_photo.pack(side="left", padx=20)
 
-
-""" 
-    def checkbox_event(self):
-        print("checkbox toggled, current value:", self.widgets.check_var.get())
-
-    def upload_image(self):
-        file_path = filedialog.askopenfilename(
-            filetypes=[("Image files", "*.jpg *.jpeg *.png *.bmp *.gif")]
+        # Upload Directory Section
+        self.directory_section_frame = customtkinter.CTkFrame(
+            self.upload_section, fg_color="transparent"
         )
-        if file_path and os.path.isfile(file_path):
-            print("Selected file:", file_path)
-            self.widgets.display_image(file_path)
+        self.directory_section_frame.pack(padx=20)
 
-    def button_click(self):
-        if self.THEME == "dark":
-            self.THEME = "light"
-        else:
-            self.THEME = "dark"
-            customtkinter.set_appearance_mode(self.THEME)
- """
+        # Upload Directory widget
+        self.directory_selector = DirectorySelector(
+            self.directory_section_frame,
+            title="Select Search Directory",
+        )
+        self.directory_selector.pack()
+
+        # Check widget
+        self.check_button = CheckButton(self.upload_section)
+        self.check_button.pack(side="bottom")
+
+        ThemeToggle(self).pack()
+
 
 if __name__ == "__main__":
     app = App()
