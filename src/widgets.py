@@ -1,12 +1,12 @@
 import customtkinter
-from PIL import Image, ImageTk
+from PIL import Image
 import os
 from tkinter import filedialog
 
 
 class Header(customtkinter.CTkFrame):
-    def __init__(self, parent, title, subtitle):
-        super().__init__(parent)
+    def __init__(self, master, title, subtitle):
+        super().__init__(master)
         self.pack(pady=10)
 
         self.title_label = customtkinter.CTkLabel(
@@ -50,32 +50,38 @@ class UploadPhoto(customtkinter.CTkFrame):
     def display_image(self):
         if self.file_path:
             image = Image.open(self.file_path)
-            photo = customtkinter.CTkImage(image, size=(300, 300))
+            width, height = image.size
+            max_size = (300, 300)
 
+            # Calculate aspect ratio
+            if width > max_size[0] or height > max_size[1]:
+                ratio = min(max_size[0] / width, max_size[1] / height)
+                width = int(width * ratio)
+                height = int(height * ratio)
+
+            photo = customtkinter.CTkImage(image, size=(width, height))
             self.image_label.configure(text="", image=photo)
-            """ self.image_label.image = (
-                photo  # Keep a reference to avoid garbage collection issues
-            ) """
+
         else:
             print("No image file selected.")
 
 
 class ThemeToggle(customtkinter.CTkButton):
-    def __init__(self, parent):
-        super().__init__(parent, text="Toggle Theme", command=self.toggle_theme)
-        self.parent = parent
+    def __init__(self, master):
+        super().__init__(master, text="Toggle Theme", command=self.toggle_theme)
+        self.master = master
         self.pack(pady=20)
 
     def toggle_theme(self):
-        if self.parent.THEME == "dark":
-            self.parent.THEME = "light"
+        if self.master.THEME == "dark":
+            self.master.THEME = "light"
         else:
-            self.parent.THEME = "dark"
-        customtkinter.set_appearance_mode(self.parent.THEME)
+            self.master.THEME = "dark"
+        customtkinter.set_appearance_mode(self.master.THEME)
 
 
 """         self.button = customtkinter.CTkButton(
-            self.parent, text="Toggle Theme", command=self.button_click
+            self.master, text="Toggle Theme", command=self.button_click
         )
         self.button.grid(row=0, column=0, padx=20, pady=10)
  """
@@ -92,7 +98,7 @@ class ThemeToggle(customtkinter.CTkButton):
     # def __init__(self):
     # self.theme_toggle()
 
-    # self.parent = parent
+    # self.master = master
     # self.button_click = button_click
     # self.checkbox_event = checkbox_event
     # self.upload_image = upload_image
@@ -100,21 +106,21 @@ class ThemeToggle(customtkinter.CTkButton):
 
     def theme_toggle(self, button_click):
         self.button = customtkinter.CTkButton(
-            self.parent, text="Toggle Theme", command=button_click
+            self.master, text="Toggle Theme", command=button_click
         )
         self.button.grid(row=0, column=0, padx=20, pady=10)
 
 
     def create_widgets(self):
         self.button = customtkinter.CTkButton(
-            self.parent, text="Toggle Theme", command=self.button_click
+            self.master, text="Toggle Theme", command=self.button_click
         )
         self.button.grid(row=0, column=0, padx=20, pady=10)
 
         self.check_var = customtkinter.StringVar(value="on")
 
         self.checkbox = customtkinter.CTkCheckBox(
-            self.parent,
+            self.master,
             text="CTkCheckBox",
             variable=self.check_var,
             command=self.checkbox_event,
@@ -131,13 +137,13 @@ class ThemeToggle(customtkinter.CTkButton):
         )
 
         self.image_label = customtkinter.CTkLabel(
-            self.parent,
+            self.master,
             image=self.img,
         )
         self.image_label.grid(row=2, column=0, padx=20, pady=10)
 
         self.upload_button = customtkinter.CTkButton(
-            self.parent, text="Upload Image", command=self.upload_image
+            self.master, text="Upload Image", command=self.upload_image
         )
         self.upload_button.grid(row=3, column=0, padx=20, pady=10)
 

@@ -5,6 +5,10 @@
     "offvalue",
     "onvalue",
     "padx",
-    "pady"
+    "pady",
+    "relheight",
+    "relx",
+    "scrollregion",
+    "yscrollcommand"
   ]
 }
