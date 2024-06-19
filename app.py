@@ -1,7 +1,12 @@
 import customtkinter
-from src.widgets import Header, CheckButton, DirectorySelector, UploadPhoto, ThemeToggle
+from src.widgets import (
+    Header,
+    CheckButton,
+    DirectorySelector,
+    UploadPhoto,
+    ThemeToggle,
+)
 import os
-from tkinter import filedialog
 
 customtkinter.set_default_color_theme(
     os.path.join(os.path.dirname(__file__), "src\\custom_theme.json")
@@ -15,20 +20,25 @@ class App(customtkinter.CTk):
         self.geometry("1024x768")
         self.title("Imsearch")
         self.THEME = "light"
-        self.configure(
-            pady=20,
-            padx=20,
+
+        # Main label
+        self.main_frame = customtkinter.CTkScrollableFrame(
+            self, fg_color="transparent", bg_color="transparent"
         )
+        self.main_frame.pack(fill="both", expand=True)
+
         # Heading Section
         self.header = Header(
-            self,
+            self.main_frame,
             title="Imsearch",
             subtitle="Upload, Compare, and Discover Similar Images Effortlessly",
         )
         self.header.pack()
 
         # Upload Section
-        self.upload_section = customtkinter.CTkFrame(self, fg_color="transparent")
+        self.upload_section = customtkinter.CTkFrame(
+            self.main_frame, fg_color="transparent"
+        )
         self.upload_section.pack()
 
         # UploadPhoto widget

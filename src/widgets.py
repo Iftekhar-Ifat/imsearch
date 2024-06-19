@@ -85,12 +85,12 @@ class DirectorySelector(customtkinter.CTkFrame):
         self.folder_path = None
 
         self.folder_label = customtkinter.CTkLabel(
-            self, text="No folder selected", font=("Inter", 14)
+            self, text="No directory selected", font=("Inter", 14)
         )
         self.folder_label.pack(pady=30, padx=10)
 
         self.folder_button = customtkinter.CTkButton(
-            self, text="Select Folder", command=self.select_folder
+            self, text="Select Directory", command=self.select_folder
         )
         self.folder_button.pack(pady=20, padx=10, side="bottom")
 
