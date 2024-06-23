@@ -4,6 +4,7 @@ from src.widgets import (
     CheckButton,
     DirectorySelector,
     UploadPhoto,
+    QueryCheckbox,
     ThemeToggle,
 )
 import os
@@ -58,9 +59,36 @@ class App(customtkinter.CTk):
         )
         self.directory_selector.pack()
 
-        # Check widget
-        self.check_button = CheckButton(self.upload_section)
-        self.check_button.pack(side="bottom")
+        # Query Checkbox Frame
+        self.query_checkbox_frame = customtkinter.CTkFrame(
+            self.directory_section_frame, fg_color="transparent"
+        )
+        self.query_checkbox_frame.pack()
+
+        # Deep search checkbox
+        self.deep_check = QueryCheckbox(
+            self.query_checkbox_frame,
+            title="Deep Check",
+            checkbox_state=customtkinter.StringVar(value="off"),
+        )
+        self.deep_check.pack()
+
+        # Quick search query checkbox
+        self.quick_search = QueryCheckbox(
+            self.query_checkbox_frame,
+            title="Quick Search",
+            checkbox_state=customtkinter.StringVar(value="off"),
+        )
+        self.quick_search.pack()
+
+        # Check Button widget
+        self.check_button = CheckButton(
+            self.upload_section,
+            self.upload_photo,
+            self.directory_selector,
+            queries=[self.deep_check, self.quick_search],
+        )
+        self.check_button.pack(side="bottom", padx=20)
 
         ThemeToggle(self).pack()
 

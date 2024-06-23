@@ -7,21 +7,21 @@ from tkinter import filedialog
 class Header(customtkinter.CTkFrame):
     def __init__(self, master, title, subtitle):
         super().__init__(master, fg_color="transparent")
-        self.pack(pady=10)
+        self.pack(pady=(10, 30))
 
         self.title_label = customtkinter.CTkLabel(
             self,
             text=title,
-            font=("Inter", 32, "bold"),
+            font=("Inter", 48, "bold"),
         )
         self.title_label.pack(pady=5, padx=10)
 
         self.subtitle_label = customtkinter.CTkLabel(
             self,
             text=subtitle,
-            font=("Inter", 16),
+            font=("Inter", 16, "italic"),
         )
-        self.subtitle_label.pack(pady=5, padx=20)
+        self.subtitle_label.pack(padx=20)
 
 
 class UploadPhoto(customtkinter.CTkFrame):
@@ -101,8 +101,23 @@ class DirectorySelector(customtkinter.CTkFrame):
             self.folder_label.configure(text=folder_path)
 
 
+class QueryCheckbox(customtkinter.CTkCheckBox):
+    def __init__(self, master, title, checkbox_state):
+        self.checkbox_state = checkbox_state
+        super().__init__(
+            master,
+            text=title,
+            # command=self.checkbox_event,
+            variable=checkbox_state,
+            onvalue="on",
+            offvalue="off",
+        )
+
+
 class CheckButton(customtkinter.CTkButton):
-    def __init__(self, master):
+    def __init__(
+        self, master, upload_photo_instance, directory_selector_instance, queries
+    ):
         super().__init__(
             master,
             text="Check",
@@ -111,9 +126,19 @@ class CheckButton(customtkinter.CTkButton):
             height=70,
             command=self.test,
         )
+        self.upload_photo_instance = upload_photo_instance
+        self.directory_selector_instance = directory_selector_instance
+        self.queries = queries
 
     def test(self):
-        print("hello")
+        file_path = self.upload_photo_instance.file_path
+        folder_path = self.directory_selector_instance.folder_path
+        queries_dict = {
+            query.cget("text"): query.checkbox_state.get() for query in self.queries
+        }
+        print(f"File: {file_path}")
+        print(f"Directory: {folder_path}")
+        print(f"Queries: {queries_dict}")
 
 
 class ThemeToggle(customtkinter.CTkButton):
@@ -128,79 +153,3 @@ class ThemeToggle(customtkinter.CTkButton):
         else:
             self.master.THEME = "dark"
         customtkinter.set_appearance_mode(self.master.THEME)
-
-
-"""         self.button = customtkinter.CTkButton(
-            self.master, text="Toggle Theme", command=self.button_click
-        )
-        self.button.grid(row=0, column=0, padx=20, pady=10)
- """
-"""     def button_click(self):
-        if self.THEME == "dark":
-            self.THEME = "light"
-        else:
-            self.THEME = "dark"
-            customtkinter.set_appearance_mode(self.THEME)
- """
-
-
-""" class Widgets:
-    # def __init__(self):
-    # self.theme_toggle()
-
-    # self.master = master
-    # self.button_click = button_click
-    # self.checkbox_event = checkbox_event
-    # self.upload_image = upload_image
-    # self.create_widgets()
-
-    def theme_toggle(self, button_click):
-        self.button = customtkinter.CTkButton(
-            self.master, text="Toggle Theme", command=button_click
-        )
-        self.button.grid(row=0, column=0, padx=20, pady=10)
-
-
-    def create_widgets(self):
-        self.button = customtkinter.CTkButton(
-            self.master, text="Toggle Theme", command=self.button_click
-        )
-        self.button.grid(row=0, column=0, padx=20, pady=10)
-
-        self.check_var = customtkinter.StringVar(value="on")
-
-        self.checkbox = customtkinter.CTkCheckBox(
-            self.master,
-            text="CTkCheckBox",
-            variable=self.check_var,
-            command=self.checkbox_event,
-            onvalue="on",
-            offvalue="off",
-        )
-        self.checkbox.grid(row=1, column=0, padx=20, pady=10)
-
-        img_path = os.path.join(os.path.dirname(__file__), "test_img.png")
-        self.img = customtkinter.CTkImage(
-            light_image=Image.open(img_path),
-            dark_image=Image.open(img_path),
-            size=(100, 100),
-        )
-
-        self.image_label = customtkinter.CTkLabel(
-            self.master,
-            image=self.img,
-        )
-        self.image_label.grid(row=2, column=0, padx=20, pady=10)
-
-        self.upload_button = customtkinter.CTkButton(
-            self.master, text="Upload Image", command=self.upload_image
-        )
-        self.upload_button.grid(row=3, column=0, padx=20, pady=10)
-
-    def display_image(self, file_path):
-        image = Image.open(file_path)
-        image.thumbnail((100, 100))
-        photo = ImageTk.PhotoImage(image)
-        self.image_label.configure(image=photo)
-        self.image_label.image = photo
- """
