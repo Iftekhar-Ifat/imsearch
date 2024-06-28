@@ -2,6 +2,7 @@ import customtkinter
 from PIL import Image
 import os
 from tkinter import filedialog
+from .utils.image_utils import GetImages
 
 
 class Header(customtkinter.CTkFrame):
@@ -136,9 +137,12 @@ class CheckButton(customtkinter.CTkButton):
         queries_dict = {
             query.cget("text"): query.checkbox_state.get() for query in self.queries
         }
+        folder_images = GetImages(folder_path).get_images()
         print(f"File: {file_path}")
         print(f"Directory: {folder_path}")
         print(f"Queries: {queries_dict}")
+
+        print(folder_images)
 
 
 class ThemeToggle(customtkinter.CTkButton):
