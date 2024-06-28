@@ -63,7 +63,7 @@ class App(customtkinter.CTk):
         self.query_checkbox_frame = customtkinter.CTkFrame(
             self.directory_section_frame, fg_color="transparent"
         )
-        self.query_checkbox_frame.pack()
+        self.query_checkbox_frame.pack(fill="both", expand=True, padx=30, pady=(5, 5))
 
         # Deep search checkbox
         self.deep_check = QueryCheckbox(
@@ -71,7 +71,14 @@ class App(customtkinter.CTk):
             title="Deep Check",
             checkbox_state=customtkinter.StringVar(value="off"),
         )
-        self.deep_check.pack()
+        self.deep_check.grid(row=0, column=0, padx=10, sticky="w")
+
+        self.deep_check_description = customtkinter.CTkLabel(
+            self.query_checkbox_frame,
+            text="( Include Nested Folders )",
+            fg_color="transparent",
+        )
+        self.deep_check_description.grid(row=0, column=2, pady=(5, 5), sticky="w")
 
         # Quick search query checkbox
         self.quick_search = QueryCheckbox(
@@ -79,7 +86,14 @@ class App(customtkinter.CTk):
             title="Quick Search",
             checkbox_state=customtkinter.StringVar(value="off"),
         )
-        self.quick_search.pack()
+        self.quick_search.grid(row=1, column=0, padx=10, pady=(5, 5), sticky="w")
+
+        self.quick_search_description = customtkinter.CTkLabel(
+            self.query_checkbox_frame,
+            text="( Faster Search )",
+            fg_color="transparent",
+        )
+        self.quick_search_description.grid(row=1, column=2, sticky="w")
 
         # Check Button widget
         self.check_button = CheckButton(

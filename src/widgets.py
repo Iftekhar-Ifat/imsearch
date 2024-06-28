@@ -74,7 +74,7 @@ class UploadPhoto(customtkinter.CTkFrame):
 
 class DirectorySelector(customtkinter.CTkFrame):
     def __init__(self, master, title):
-        super().__init__(master, width=400, height=200)
+        super().__init__(master, width=400, height=150)
         self.pack_propagate(False)
 
         self.title_label = customtkinter.CTkLabel(
@@ -87,12 +87,12 @@ class DirectorySelector(customtkinter.CTkFrame):
         self.folder_label = customtkinter.CTkLabel(
             self, text="No directory selected", font=("Inter", 14)
         )
-        self.folder_label.pack(pady=30, padx=10)
+        self.folder_label.pack(pady=10, padx=10)
 
         self.folder_button = customtkinter.CTkButton(
             self, text="Select Directory", command=self.select_folder
         )
-        self.folder_button.pack(pady=20, padx=10, side="bottom")
+        self.folder_button.pack(pady=10, padx=10, side="bottom")
 
     def select_folder(self):
         folder_path = filedialog.askdirectory()
