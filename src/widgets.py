@@ -134,15 +134,22 @@ class CheckButton(customtkinter.CTkButton):
     def test(self):
         file_path = self.upload_photo_instance.file_path
         folder_path = self.directory_selector_instance.folder_path
-        queries_dict = {
+        queries = {
             query.cget("text"): query.checkbox_state.get() for query in self.queries
         }
-        folder_images = GetImages(folder_path).get_images()
-        print(f"File: {file_path}")
-        print(f"Directory: {folder_path}")
-        print(f"Queries: {queries_dict}")
 
-        print(folder_images)
+        total_images = (
+            GetImages(folder_path).get_images()
+            if queries.get("Deep Check") == "off"
+            else GetImages(folder_path).get_nested_images()
+        )
+
+        selected_model = (
+            "DINO" if queries.get("Quick Search") == "off" else "MOBILE_NET"
+        )
+
+        print(f"Files: {len(total_images)}")
+        print(f"Model: {selected_model}")
 
 
 class ThemeToggle(customtkinter.CTkButton):

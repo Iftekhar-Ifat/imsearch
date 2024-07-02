@@ -12,3 +12,10 @@ class GetImages:
         for ext in self.extensions:
             images.extend(glob.glob(os.path.join(self.directory, ext)))
         return images
+
+    def get_nested_images(self):
+        images = []
+        for root, _, _ in os.walk(self.directory):
+            for ext in self.extensions:
+                images.extend(glob.glob(os.path.join(root, ext)))
+        return images
