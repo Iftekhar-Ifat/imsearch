@@ -116,9 +116,7 @@ class QueryCheckbox(customtkinter.CTkCheckBox):
 
 
 class CheckButton(customtkinter.CTkButton):
-    def __init__(
-        self, master, upload_photo_instance, directory_selector_instance, queries
-    ):
+    def __init__(self, master, queries, app):
         super().__init__(
             master,
             text="Check",
@@ -127,16 +125,19 @@ class CheckButton(customtkinter.CTkButton):
             height=70,
             command=self.test,
         )
-        self.upload_photo_instance = upload_photo_instance
-        self.directory_selector_instance = directory_selector_instance
         self.queries = queries
+        self.app = app
 
     def test(self):
-        file_path = self.upload_photo_instance.file_path
-        folder_path = self.directory_selector_instance.folder_path
+        file_path = self.app.upload_photo.file_path
+        folder_path = self.app.directory_selector.folder_path
         queries = {
             query.cget("text"): query.checkbox_state.get() for query in self.queries
         }
+
+        if not file_path or not folder_path:
+            print("Error: file or folder path not given")
+            return
 
         total_images = (
             GetImages(folder_path).get_images()
@@ -150,6 +151,10 @@ class CheckButton(customtkinter.CTkButton):
 
         print(f"Files: {len(total_images)}")
         print(f"Model: {selected_model}")
+        print(f"File path: {file_path}")
+
+        # Update the result labels in the app
+        self.app.update_total_images(len(total_images))
 
 
 class ThemeToggle(customtkinter.CTkButton):

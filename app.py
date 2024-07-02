@@ -10,7 +10,7 @@ from src.widgets import (
 import os
 
 customtkinter.set_default_color_theme(
-    os.path.join(os.path.dirname(__file__), "src\\custom_theme.json")
+    os.path.join(os.path.dirname(__file__), "custom_theme.json")
 )
 customtkinter.set_appearance_mode("light")
 
@@ -98,13 +98,28 @@ class App(customtkinter.CTk):
         # Check Button widget
         self.check_button = CheckButton(
             self.upload_section,
-            self.upload_photo,
-            self.directory_selector,
             queries=[self.deep_check, self.quick_search],
+            app=self,
         )
         self.check_button.pack(side="bottom", padx=20)
 
+        # Information Section
+        self.information_section = customtkinter.CTkFrame(
+            self.main_frame,
+            fg_color="transparent",
+        )
+        self.information_section.pack(fill="both", expand=True, pady=10)
+
+        # Information - total images
+        self.total_images = customtkinter.CTkLabel(
+            self.information_section, text="", font=("Inter", 16)
+        )
+        self.total_images.pack(pady=(5, 0))
+
         ThemeToggle(self).pack()
+
+    def update_total_images(self, total):
+        self.total_images.configure(text=f"Total Images: {total}")
 
 
 if __name__ == "__main__":
