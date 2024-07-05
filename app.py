@@ -6,6 +6,7 @@ from src.widgets import (
     UploadPhoto,
     QueryCheckbox,
     ThemeToggle,
+    LoadingSpinner,
 )
 import os
 
@@ -115,6 +116,10 @@ class App(customtkinter.CTk):
             self.information_section, text="", font=("Inter", 16)
         )
         self.total_images.pack(pady=(5, 0))
+
+        # LOADING
+        self.total_images = LoadingSpinner(self.information_section, size=(30, 30))
+        self.total_images.pack()
 
         ThemeToggle(self).pack()
 

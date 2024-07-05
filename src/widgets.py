@@ -1,8 +1,9 @@
 import customtkinter
-from PIL import Image
+from PIL import Image, ImageTk
 import os
 from tkinter import filedialog
 from .utils.image_utils import GetImages
+from .utils.helper import rotate_image
 
 
 class Header(customtkinter.CTkFrame):
@@ -155,6 +156,35 @@ class CheckButton(customtkinter.CTkButton):
 
         # Update the result labels in the app
         self.app.update_total_images(len(total_images))
+
+
+class LoadingSpinner(customtkinter.CTkFrame):
+    def __init__(self, master, size):
+        super().__init__(master, fg_color="transparent")
+        self.size = size
+        self.original_image = Image.open("assets\spinner.png")
+        self.original_image = self.original_image.resize(self.size)
+        self.image = ImageTk.PhotoImage(self.original_image)
+        self.label = customtkinter.CTkLabel(self, image=self.image, text="")
+        self.label.pack(expand=True)
+        self.angle = 0
+        self.animate = True
+        self.start_loading()
+
+    def rotate(self):
+        if self.animate:
+            self.angle += 15
+            rotated_image = rotate_image(self.original_image, self.angle)
+            self.label.configure(image=rotated_image)
+            self.label.image = rotated_image
+            self.after(30, self.rotate)
+
+    def start_loading(self):
+        self.animate = True
+        self.rotate()
+
+    def stop_loading(self):
+        self.animate = False
 
 
 class ThemeToggle(customtkinter.CTkButton):
