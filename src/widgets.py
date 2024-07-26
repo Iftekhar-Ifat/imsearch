@@ -124,12 +124,35 @@ class CheckButton(customtkinter.CTkButton):
             font=("Inter", 20, "bold"),
             width=400,
             height=70,
-            command=self.test,
+            command=self.check_btn,
         )
         self.queries = queries
         self.app = app
 
-    def test(self):
+    def show_error_message(self):
+        if not hasattr(self.app, "error_message") or not self.app.error_message:
+            self.app.error_message = customtkinter.CTkLabel(
+                self.app.information_section,
+                text="Error: file or folder path not given",
+                text_color="red",
+                font=("Inter", 16),
+            )
+            self.app.error_message.pack(pady=(5, 0))
+
+    def hide_error_message(self):
+        if hasattr(self.app, "error_message") and self.app.error_message:
+            self.app.error_message.pack_forget()
+
+    def start_loading(self):
+        self.app.loading = LoadingSpinner(
+            self.app.information_section, size=(30, 30), isLoading=True
+        )
+        self.app.loading.pack(pady=(10, 0))
+
+    def stop_loading(self):
+        self.app.loading.pack_forget()
+
+    def check_btn(self):
         file_path = self.app.upload_photo.file_path
         folder_path = self.app.directory_selector.folder_path
         queries = {
@@ -137,8 +160,11 @@ class CheckButton(customtkinter.CTkButton):
         }
 
         if not file_path or not folder_path:
-            print("Error: file or folder path not given")
+            self.show_error_message()
             return
+
+        self.hide_error_message()
+        self.start_loading()
 
         total_images = (
             GetImages(folder_path).get_images()
@@ -150,16 +176,16 @@ class CheckButton(customtkinter.CTkButton):
             "DINO" if queries.get("Quick Search") == "off" else "MOBILE_NET"
         )
 
+        self.stop_loading()
+        # self.app.total_images.configure(text=f"Total Images: {len(total_images)}")
+
         print(f"Files: {len(total_images)}")
         print(f"Model: {selected_model}")
         print(f"File path: {file_path}")
 
-        # Update the result labels in the app
-        self.app.update_total_images(len(total_images))
-
 
 class LoadingSpinner(customtkinter.CTkFrame):
-    def __init__(self, master, size):
+    def __init__(self, master, size, isLoading):
         super().__init__(master, fg_color="transparent")
         self.size = size
         self.original_image = Image.open("assets\spinner.png")
@@ -169,7 +195,12 @@ class LoadingSpinner(customtkinter.CTkFrame):
         self.label.pack(expand=True)
         self.angle = 0
         self.animate = True
-        self.start_loading()
+        self.isLoading = isLoading
+
+        if self.isLoading:
+            self.start_loading()
+        else:
+            self.stop_loading()
 
     def rotate(self):
         if self.animate:

@@ -117,10 +117,6 @@ class App(customtkinter.CTk):
         )
         self.total_images.pack(pady=(5, 0))
 
-        # LOADING
-        self.total_images = LoadingSpinner(self.information_section, size=(30, 30))
-        self.total_images.pack()
-
         ThemeToggle(self).pack()
 
     def update_total_images(self, total):
