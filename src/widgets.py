@@ -177,7 +177,6 @@ class CheckButton(customtkinter.CTkButton):
         )
 
         self.stop_loading()
-        # self.app.total_images.configure(text=f"Total Images: {len(total_images)}")
 
         print(f"Files: {len(total_images)}")
         print(f"Model: {selected_model}")
