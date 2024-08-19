@@ -1,3 +1,4 @@
+import threading
 import customtkinter
 from PIL import Image, ImageTk
 import os
@@ -152,35 +153,41 @@ class CheckButton(customtkinter.CTkButton):
     def stop_loading(self):
         self.app.loading.pack_forget()
 
+    def load_images(self, folder_path, queries):
+        loaded_images = (
+            GetImages(folder_path).get_images()
+            if queries.get("Deep Check") == "off"
+            else GetImages(folder_path).get_nested_images()
+        )
+        self.after(0, self.process_results, loaded_images)
+
     def check_btn(self):
-        file_path = self.app.upload_photo.file_path
-        folder_path = self.app.directory_selector.folder_path
+        self.file_path = self.app.upload_photo.file_path
+        self.folder_path = self.app.directory_selector.folder_path
         queries = {
             query.cget("text"): query.checkbox_state.get() for query in self.queries
         }
 
-        if not file_path or not folder_path:
+        if not self.file_path or not self.folder_path:
             self.show_error_message()
             return
 
         self.hide_error_message()
         self.start_loading()
 
-        total_images = (
-            GetImages(folder_path).get_images()
-            if queries.get("Deep Check") == "off"
-            else GetImages(folder_path).get_nested_images()
-        )
-
-        selected_model = (
+        self.selected_model = (
             "DINO" if queries.get("Quick Search") == "off" else "MOBILE_NET"
         )
 
-        self.stop_loading()
+        threading.Thread(
+            target=self.load_images, args=(self.folder_path, queries), daemon=True
+        ).start()
 
-        print(f"Files: {len(total_images)}")
-        print(f"Model: {selected_model}")
-        print(f"File path: {file_path}")
+    def process_results(self, loaded_images):
+        self.stop_loading()
+        print(f"Files: {len(loaded_images)}")
+        print(f"Model: {self.selected_model}")
+        print(f"File path: {self.file_path}")
 
 
 class LoadingSpinner(customtkinter.CTkFrame):
