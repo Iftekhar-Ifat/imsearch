@@ -111,12 +111,6 @@ class App(customtkinter.CTk):
         )
         self.information_section.pack(fill="both", expand=True, pady=10)
 
-        # Information - total images
-        self.total_images = customtkinter.CTkLabel(
-            self.information_section, text="", font=("Inter", 16)
-        )
-        self.total_images.pack(pady=(5, 0))
-
         ThemeToggle(self).pack()
 
     def update_total_images(self, total):

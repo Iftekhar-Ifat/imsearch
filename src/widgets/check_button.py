@@ -1,7 +1,7 @@
 import customtkinter
 import threading
 from ..utils.image_utils import GetImages
-from .loading_spinner import LoadingSpinner
+from .information_section import InformationSection
 
 
 class CheckButton(customtkinter.CTkButton):
@@ -17,28 +17,10 @@ class CheckButton(customtkinter.CTkButton):
         self.queries = queries
         self.app = app
 
-    def show_error_message(self):
-        if not hasattr(self.app, "error_message") or not self.app.error_message:
-            self.app.error_message = customtkinter.CTkLabel(
-                self.app.information_section,
-                text="Error: file or folder path not given",
-                text_color="red",
-                font=("Inter", 16),
-            )
-            self.app.error_message.pack(pady=(5, 0))
-
-    def hide_error_message(self):
-        if hasattr(self.app, "error_message") and self.app.error_message:
-            self.app.error_message.pack_forget()
-
-    def start_loading(self):
-        self.app.loading = LoadingSpinner(
-            self.app.information_section, size=(30, 30), isLoading=True
-        )
-        self.app.loading.pack(pady=(10, 0))
-
-    def stop_loading(self):
-        self.app.loading.pack_forget()
+    def _get_queries(self):
+        return {
+            query.cget("text"): query.checkbox_state.get() for query in self.queries
+        }
 
     def load_images(self, folder_path, queries):
         loaded_images = (
@@ -51,16 +33,16 @@ class CheckButton(customtkinter.CTkButton):
     def check_btn(self):
         self.file_path = self.app.upload_photo.file_path
         self.folder_path = self.app.directory_selector.folder_path
-        queries = {
-            query.cget("text"): query.checkbox_state.get() for query in self.queries
-        }
+        queries = self._get_queries()
 
         if not self.file_path or not self.folder_path:
-            self.show_error_message()
+            InformationSection.show_error_message(self.app)
             return
+        else:
+            InformationSection.hide_error_message(self.app)
 
-        self.hide_error_message()
-        self.start_loading()
+        InformationSection.start_loading(self.app)
+        self.configure(state="disabled")
 
         self.selected_model = (
             "DINO" if queries.get("Quick Search") == "off" else "MOBILE_NET"
@@ -71,7 +53,9 @@ class CheckButton(customtkinter.CTkButton):
         ).start()
 
     def process_results(self, loaded_images):
-        self.stop_loading()
-        print(f"Files: {len(loaded_images)}")
-        print(f"Model: {self.selected_model}")
-        print(f"File path: {self.file_path}")
+
+        InformationSection.stop_loading(self.app)
+        self.configure(state="normal")
+
+        InformationSection.show_total_image(self.app, loaded_images)
+        InformationSection.show_selected_model(self.app, self.selected_model)
