@@ -1,14 +1,14 @@
 import customtkinter
+import os
+
 from src.widgets import (
     Header,
-    CheckButton,
-    DirectorySelector,
     UploadPhoto,
+    DirectorySelector,
     QueryCheckbox,
     ThemeToggle,
-    LoadingSpinner,
+    CheckButton,
 )
-import os
 
 customtkinter.set_default_color_theme(
     os.path.join(os.path.dirname(__file__), "custom_theme.json")
