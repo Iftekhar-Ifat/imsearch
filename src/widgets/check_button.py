@@ -41,7 +41,7 @@ class CheckButton(customtkinter.CTkButton):
         else:
             InformationSection.hide_error_message(self.app)
 
-        InformationSection.start_loading(self.app)
+        InformationSection.start_loading(self.app, size=(30, 30))
         self.configure(state="disabled")
 
         self.selected_model = (
@@ -55,7 +55,8 @@ class CheckButton(customtkinter.CTkButton):
     def process_results(self, loaded_images):
 
         InformationSection.stop_loading(self.app)
-        self.configure(state="normal")
 
         InformationSection.show_total_image(self.app, loaded_images)
         InformationSection.show_selected_model(self.app, self.selected_model)
+
+        InformationSection.show_progress_bar(self.app)

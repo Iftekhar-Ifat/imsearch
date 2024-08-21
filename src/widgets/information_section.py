@@ -17,10 +17,8 @@ class InformationSection:
         if hasattr(app, "error_message") and app.error_message:
             app.error_message.pack_forget()
 
-    def start_loading(app):
-        app.loading = LoadingSpinner(
-            app.information_section, size=(30, 30), isLoading=True
-        )
+    def start_loading(app, size):
+        app.loading = LoadingSpinner(app.information_section, size=size, isLoading=True)
         app.loading.pack(pady=(10, 0))
 
     def stop_loading(app):
@@ -48,3 +46,20 @@ class InformationSection:
             font=("Inter", 16),
         )
         app.selected_model.pack()
+
+    def show_progress_bar(app):
+        if not hasattr(app, "progress_bar") or not app.progress_bar:
+            app.progress_bar = customtkinter.CTkProgressBar(
+                app.information_section,
+                orientation="horizontal",
+                width=800,
+                mode="indeterminate",
+                indeterminate_speed=0.6,
+            )
+            app.progress_bar.pack(pady=20)
+            app.progress_bar.start()
+
+    def hide_progress_bar(app):
+        if hasattr(app, "progress_bar") and app.progress_bar:
+            app.progress_bar.stop()
+            app.progress_bar.pack_forget()
