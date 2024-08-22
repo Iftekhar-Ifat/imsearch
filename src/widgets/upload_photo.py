@@ -27,7 +27,7 @@ class UploadPhoto(customtkinter.CTkFrame):
 
     def upload_image(self):
         file_path = filedialog.askopenfilename(
-            filetypes=[("Image files", "*.jpg *.jpeg *.png *.bmp")]
+            filetypes=[("Image files", "*.jpg *.jpeg *.png")]
         )
         if file_path and os.path.isfile(file_path):
             self.file_path = file_path

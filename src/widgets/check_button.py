@@ -59,4 +59,6 @@ class CheckButton(customtkinter.CTkButton):
         InformationSection.show_total_image(self.app, loaded_images)
         InformationSection.show_selected_model(self.app, self.selected_model)
 
-        InformationSection.show_progress_bar(self.app)
+        # InformationSection.show_progress_bar(self.app)
+
+        self.app.result_section.pack()

@@ -8,6 +8,7 @@ from src.widgets import (
     QueryCheckbox,
     ThemeToggle,
     CheckButton,
+    ResultSection,
 )
 
 customtkinter.set_default_color_theme(
@@ -106,10 +107,15 @@ class App(customtkinter.CTk):
 
         # Information Section
         self.information_section = customtkinter.CTkFrame(
-            self.main_frame,
-            fg_color="transparent",
+            self.main_frame, fg_color="transparent"
         )
-        self.information_section.pack(fill="both", expand=True, pady=10)
+        self.information_section.pack(fill="both", expand=True, pady=(10, 0))
+
+        # Result Section
+        self.result_section = ResultSection(
+            self.main_frame,
+        )
+        self.result_section.pack()
 
         ThemeToggle(self).pack()
 

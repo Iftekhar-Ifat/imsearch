@@ -1,0 +1,62 @@
+import customtkinter as ctk
+from .image_tile import ImageTile
+
+
+class ResultSection(ctk.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master, fg_color="transparent")
+
+        self.grid_columnconfigure(0, weight=1, minsize=820)
+
+        # Title
+        self.title = ctk.CTkLabel(
+            self, text="Results", font=("Inter", 32, "bold"), anchor="w", justify="left"
+        )
+        self.title.grid(row=0, column=0, sticky="w", pady=(0, 5))
+
+        # Subtitle
+        self.subtitle = ctk.CTkLabel(
+            self,
+            text="Images are sorted by similarity",
+            font=("Inter", 16, "italic"),
+            anchor="w",
+            justify="left",
+        )
+        self.subtitle.grid(row=1, column=0, sticky="w")
+
+        # Results grid
+        self.results_frame = ctk.CTkFrame(self, fg_color="gray90")
+        self.results_frame.grid(row=2, column=0, sticky="nsew", pady=10)
+
+        self.results_grid = ctk.CTkFrame(self.results_frame, fg_color="transparent")
+        self.results_grid.pack(fill="both", expand=True, padx=10, pady=10)
+
+        self.img_arr = [
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\arch.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\circuit-waifu.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\code.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\desert.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\gruvbox-moon.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash17.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash4.png",
+            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash5.png",
+            "C:\\Users\\User\\Desktop\\bSeGgLCkVQR1Kx82_Badshah-Namdar.jpg",
+        ]
+        self.create_image_grid()
+
+    def create_image_grid(self):
+        for i, img_name in enumerate(self.img_arr):
+            row = i // 5
+            col = i % 5
+            self.results_grid.grid_rowconfigure(row, weight=1)
+            self.results_grid.grid_columnconfigure(col, weight=1)
+
+            image_tile = ImageTile(self.results_grid, img_name)
+            image_tile.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+
+    def update_results(self, new_img_arr):
+        for widget in self.results_grid.winfo_children():
+            widget.destroy()
+
+        self.img_arr = new_img_arr
+        self.create_image_grid()
