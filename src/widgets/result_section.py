@@ -25,13 +25,14 @@ class ResultSection(ctk.CTkFrame):
         self.subtitle.grid(row=1, column=0, sticky="w")
 
         # Results grid
-        self.results_frame = ctk.CTkFrame(self, fg_color="gray90")
+        self.results_frame = ctk.CTkFrame(self, fg_color=("gray90", "#1F1F1F"))
         self.results_frame.grid(row=2, column=0, sticky="nsew", pady=10)
 
         self.results_grid = ctk.CTkFrame(self.results_frame, fg_color="transparent")
         self.results_grid.pack(fill="both", expand=True, padx=10, pady=10)
 
-        self.img_arr = [
+    def display_images(self, images):
+        """self.img_arr = [
             "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\arch.png",
             "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\circuit-waifu.png",
             "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\code.png",
@@ -41,11 +42,11 @@ class ResultSection(ctk.CTkFrame):
             "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash4.png",
             "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash5.png",
             "C:\\Users\\User\\Desktop\\bSeGgLCkVQR1Kx82_Badshah-Namdar.jpg",
-        ]
-        self.create_image_grid()
+        ]"""
+        self.update_results(images)
 
-    def create_image_grid(self):
-        for i, img_name in enumerate(self.img_arr):
+    def create_image_grid(self, images):
+        for i, img_name in enumerate(images):
             row = i // 5
             col = i % 5
             self.results_grid.grid_rowconfigure(row, weight=1)
@@ -59,4 +60,4 @@ class ResultSection(ctk.CTkFrame):
             widget.destroy()
 
         self.img_arr = new_img_arr
-        self.create_image_grid()
+        self.create_image_grid(new_img_arr)

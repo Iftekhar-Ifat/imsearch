@@ -115,7 +115,6 @@ class App(customtkinter.CTk):
         self.result_section = ResultSection(
             self.main_frame,
         )
-        self.result_section.pack()
 
         ThemeToggle(self).pack()
 
