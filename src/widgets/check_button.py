@@ -4,6 +4,7 @@ from ..utils.image_utils import GetImages
 from .information_section import InformationSection
 from ..imsearch import ImageSimilarity
 from .result_section import ResultSection
+from tkinter import messagebox
 
 
 class CheckButton(customtkinter.CTkButton):
@@ -37,16 +38,16 @@ class CheckButton(customtkinter.CTkButton):
         self.folder_path = self.app.directory_selector.folder_path
         queries = self._get_queries()
 
+        self.restore_prev_state()
+
         if not self.file_path or not self.folder_path:
-            InformationSection.show_error_message(self.app)
+            messagebox.showerror(
+                "Imsearch Error", "Error: File or folder path not given!"
+            )
             return
-        else:
-            InformationSection.hide_error_message(self.app)
 
         InformationSection.start_loading(self.app, size=(30, 30))
-        InformationSection.hide_progress_bar(self.app)
-
-        self.configure(state="disabled")
+        self.enable_loading_state()
 
         self.selected_model = (
             "DINO" if queries.get("Quick Search") == "off" else "MOBILE_NET"
@@ -72,22 +73,40 @@ class CheckButton(customtkinter.CTkButton):
         ).start()
 
     def search_images(self, model_name, uploaded_image, image_array):
-        img_sim = ImageSimilarity(model_name, image_array)
-        total_image = len(image_array)
+        try:
+            img_sim = ImageSimilarity(model_name, image_array)
+            total_image = len(image_array)
 
-        # TODO: need to add message for 0 images also try catch for other errors as well
+            if total_image == 0:
+                messagebox.showerror(
+                    "Imsearch Error", "Error: Directory doesn't contain any images."
+                )
+                self.restore_prev_state()
+                return
 
-        # Search for similar images
-        distances, indices, paths = img_sim.find_similar_images(
-            uploaded_image, k=total_image
-        )
+            # Search for similar images
+            distances, indices, paths = img_sim.find_similar_images(
+                uploaded_image, k=total_image
+            )
 
-        ResultSection.display_images(self.app.result_section, images=paths)
+            ResultSection.display_images(self.app.result_section, images=paths)
+            self.after(0, self.show_result)
 
-        self.after(0, self.show_result)
+        except Exception as e:
+            messagebox.showerror("Imsearch Error", f"Error: {e}")
+            self.restore_prev_state()
 
     def show_result(self):
-        InformationSection.hide_progress_bar(self.app)
         self.app.result_section.pack()
-        self.configure(state="normal")
+        self.restore_prev_state()
+
+    def restore_prev_state(self):
+        InformationSection.hide_progress_bar(self.app)
         self.app.progress_bar = None
+        self.configure(state="normal")
+        self.configure(text="Check")
+
+    def enable_loading_state(self):
+        self.configure(text="Loading...")
+        self.configure(state="disabled")
+        InformationSection.hide_progress_bar(self.app)
