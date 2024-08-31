@@ -22,6 +22,7 @@ class App(customtkinter.CTk):
         super().__init__()
         self.geometry("1024x768")
         self.title("Imsearch")
+        self.wm_iconbitmap("assets/imsearch.ico")
         self.THEME = "light"
 
         # Main label
