@@ -1,5 +1,6 @@
 import customtkinter
 import threading
+import gc
 from ..utils.image_utils import GetImages
 from .information_section import InformationSection
 from ..imsearch import ImageSimilarity
@@ -74,26 +75,27 @@ class CheckButton(customtkinter.CTkButton):
 
     def search_images(self, model_name, uploaded_image, image_array):
         try:
-            img_sim = ImageSimilarity(model_name, image_array)
-            total_image = len(image_array)
+            with ImageSimilarity(model_name, image_array).memory_manager() as img_sim:
+                total_image = len(image_array)
 
-            if total_image == 0:
-                messagebox.showerror(
-                    "Imsearch Error", "Error: Directory doesn't contain any images."
+                if total_image == 0:
+                    messagebox.showerror(
+                        "Imsearch Error", "Error: Directory doesn't contain any images."
+                    )
+                    return
+
+                # Search for similar images
+                distances, indices, paths = img_sim.find_similar_images(
+                    uploaded_image, k=total_image
                 )
-                self.restore_prev_state()
-                return
 
-            # Search for similar images
-            distances, indices, paths = img_sim.find_similar_images(
-                uploaded_image, k=total_image
-            )
-
-            ResultSection.display_images(self.app.result_section, images=paths)
-            self.after(0, self.show_result)
+                ResultSection.display_images(self.app.result_section, images=paths)
+                self.after(0, self.show_result)
 
         except Exception as e:
             messagebox.showerror("Imsearch Error", f"Error: {e}")
+        finally:
+            gc.collect()
             self.restore_prev_state()
 
     def show_result(self):

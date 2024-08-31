@@ -48,5 +48,7 @@ class UploadPhoto(customtkinter.CTkFrame):
             photo = customtkinter.CTkImage(image, size=(width, height))
             self.image_label.configure(text="", image=photo)
 
+            image.close()
+
         else:
             print("No image file selected.")

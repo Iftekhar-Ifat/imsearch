@@ -32,17 +32,6 @@ class ResultSection(ctk.CTkFrame):
         self.results_grid.pack(fill="both", expand=True, padx=10, pady=10)
 
     def display_images(self, images):
-        """self.img_arr = [
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\arch.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\circuit-waifu.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\code.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\desert.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\gruvbox-moon.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash17.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash4.png",
-            "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash5.png",
-            "C:\\Users\\User\\Desktop\\bSeGgLCkVQR1Kx82_Badshah-Namdar.jpg",
-        ]"""
         self.update_results(images)
 
     def create_image_grid(self, images):
