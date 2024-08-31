@@ -42,8 +42,8 @@ class ImageSimilarity:
     def _load_dino(self):
         from transformers import AutoImageProcessor, AutoModel
 
-        self.processor = AutoImageProcessor.from_pretrained("./test/dino")
-        self.model = AutoModel.from_pretrained("./test/dino").to(self._get_device())
+        self.processor = AutoImageProcessor.from_pretrained("./models/dino")
+        self.model = AutoModel.from_pretrained("./models/dino").to(self._get_device())
 
     def _load_mobilenet(self):
         import torch
@@ -51,7 +51,7 @@ class ImageSimilarity:
 
         self.model = models.mobilenet_v2()
         state_dict = torch.load(
-            "./test/mobilenet/mobilenet_v2-b0353104.pth",
+            "./models/mobilenet/mobilenet_v2-b0353104.pth",
             map_location=self._get_device(),
         )
         self.model.load_state_dict(state_dict)

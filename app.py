@@ -14,7 +14,7 @@ from src.widgets import (
 customtkinter.set_default_color_theme(
     os.path.join(os.path.dirname(__file__), "custom_theme.json")
 )
-customtkinter.set_appearance_mode("light")
+customtkinter.set_appearance_mode("system")
 
 
 class App(customtkinter.CTk):
@@ -23,7 +23,7 @@ class App(customtkinter.CTk):
         self.geometry("1024x768")
         self.title("Imsearch")
         self.wm_iconbitmap("assets/imsearch.ico")
-        self.THEME = "light"
+        # self.THEME = "light"
 
         # Main label
         self.main_frame = customtkinter.CTkScrollableFrame(
@@ -117,7 +117,7 @@ class App(customtkinter.CTk):
             self.main_frame,
         )
 
-        ThemeToggle(self).pack()
+        # ThemeToggle(self).pack()
 
     def update_total_images(self, total):
         self.total_images.configure(text=f"Total Images: {total}")

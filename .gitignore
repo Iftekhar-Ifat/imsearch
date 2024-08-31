@@ -3,3 +3,7 @@
 __pycache__
 test
 TODO.txt
+/models
+imsearch.spec
+/build
+/dist
