@@ -2,6 +2,8 @@
 
 imsearch is a powerful tool designed to help you find and compare similar images within a directory. Simply upload an image, select a directory, and let imsearch do the rest. It will analyze and sort all images in the specified directory based on their similarity to the uploaded image.
 
+![imsearch](imsearch.png)
+
 ## Features
 
 - **Easy Image Upload**: Upload an image file to compare.

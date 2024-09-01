@@ -1,3 +1,9 @@
+""" Reminder for the future:
+    - Function level import are used because global import slows the initial app load.
+    - GPU acceleration is not enabled, because you are using AMD GPU (no cuda support, no test, no support).
+    - Choosing tkinter was a bad choice, try to choose a modern UI library if you update the code in the future.
+ """
+
 from PIL import Image
 import numpy as np
 import gc
@@ -144,31 +150,3 @@ class ImageSimilarity:
             self.add_vector_to_index(features)
 
         self.image_paths = self.images
-
-
-""" if __name__ == "__main__":
-    model_name = "DINO"
-
-    img_arr = [
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\arch.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\circuit-waifu.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\code.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\desert.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\gruvbox-moon.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash17.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash4.png",
-        "C:\\Users\\User\\Desktop\\MEME\\wallpapers\\ign_unsplash5.png",
-        "C:\\Users\\User\\Desktop\\bSeGgLCkVQR1Kx82_Badshah-Namdar.jpg",
-    ]
-
-    img_sim = ImageSimilarity(model_name, img_arr)
-
-    # Search for similar images
-    distances, indices, paths = img_sim.find_similar_images(
-        "C:\\Users\\User\\Desktop\\bSeGgLCkVQR1Kx82_Badshah-Namdar.jpg", k=len(img_arr)
-    )
-
-    print("Top 5 similar images (from most to least similar):")
-    for i, (d, idx, path) in enumerate(zip(distances, indices, paths)):
-        print(f"{i+1}. Image index: {idx}, Distance: {d}, Path: {path}")
- """
