@@ -10,6 +10,12 @@ imsearch is a powerful tool designed to help you find and compare similar images
 - **Directory Selection**: Choose any directory on your system to search for similar images.
 - **Similarity Sorting**: Images are sorted from most similar to least similar.
 
+## Demo
+
+Imagine you have a large directory of images, and you want to identify and sort those containing skin areas. Your goal is to find all the images with skin, and then rank them from most similar to least similar.
+
+![Imsearch Demo](imsearch-demo.mp4)
+
 ## Download Application
 
 [Imsearch.zip](https://drive.google.com/file/d/15-zugX6MoyewgV6DkcaokLw7lhZC12Tz/view?usp=sharing)
