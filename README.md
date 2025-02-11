@@ -14,11 +14,11 @@ imsearch is a powerful tool designed to help you find and compare similar images
 
 Imagine you have a large directory of images, and you want to identify and sort those containing skin areas. Your goal is to find all the images with skin, and then rank them from most similar to least similar.
 
-[🎬 Imsearch Demo](https://youtu.be/74bDgi8KEXk)
+🎬 [Imsearch Demo](https://youtu.be/74bDgi8KEXk)
 
 ## Download Application
 
-[📁 Imsearch.zip](https://drive.google.com/file/d/15-zugX6MoyewgV6DkcaokLw7lhZC12Tz/view?usp=sharing)
+📁 [Imsearch.zip](https://drive.google.com/file/d/15-zugX6MoyewgV6DkcaokLw7lhZC12Tz/view?usp=sharing)
 
 ## How to build
 
