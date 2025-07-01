@@ -1,20 +1,31 @@
 # Imsearch
 
-imsearch is a powerful tool designed to help you find and compare similar images within a directory. Simply upload an image, select a directory, and let imsearch do the rest. It will analyze and sort all images in the specified directory based on their similarity to the uploaded image.
+Imsearch is a desktop application for searching, comparing, and discovering similar images within a directory. Built with a custom-themed, user-friendly interface using [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter), Imsearch leverages deep learning models to analyze and rank images by similarity, making it ideal for photographers, designers, researchers, and anyone working with large image collections.
 
 ![imsearch](imsearch.png)
 
-## Features
+## Key Features
 
-- **Easy Image Upload**: Upload an image file to compare.
-- **Directory Selection**: Choose any directory on your system to search for similar images.
-- **Similarity Sorting**: Images are sorted from most similar to least similar.
+- **Intuitive UI**: Clean, responsive interface with dark/light theme toggle.
+- **Easy Image Upload**: Quickly upload an image to use as a search query.
+- **Directory Selection**: Choose any folder to search for similar images.
+- **Deep/Nested Search**: Option to search subdirectories for images.
+- **Similarity Sorting**: Images are ranked from most similar to least similar using advanced models (`DINO` and `MobileNet`).
+- **Progress Feedback**: Real-time progress bar and loading spinner for long searches.
+- **Model Selection**: Automatic selection between `DINO` (for accuracy) and `MobileNet` (for speed).
+- **Result Visualization**: Grid view of results with image previews; double-click to open images directly.
+
+## How It Works
+
+1. **Upload an Image**: Select an image as your search query.
+2. **Select a Directory**: Choose the folder containing images to search.
+3. **Choose Search Options**: Enable "Deep Check" to include subfolders.
+4. **Start Search**: Click "Check" to begin. The app will process and rank images by similarity.
+5. **View Results**: See the most similar images in a grid, sorted by relevance. Double-click any image to open it.
 
 ## Demo
 
-Imagine you have a large directory of images, and you want to identify and sort those containing skin areas. Your goal is to find all the images with skin, and then rank them from most similar to least similar.
-
-🎬 [Imsearch Demo](https://youtu.be/74bDgi8KEXk)
+🎬 [Imsearch Demo Video](https://youtu.be/74bDgi8KEXk)
 
 ## Download Application
 
@@ -24,26 +35,32 @@ Imagine you have a large directory of images, and you want to identify and sort 
 
 To build imsearch, follow these steps:
 
-1. Clone the repository:
+### 1. Clone the repository:
 
 ```sh
- git clone https://github.com/Iftekhar-Ifat/imsearch.git
+git clone https://github.com/Iftekhar-Ifat/imsearch.git
+cd imsearch
 ```
 
-2. Navigate to the project directory:
+### 2. Set Up the Environment
+
+Install dependencies using Conda (recommended):
 
 ```sh
- cd imsearch
+conda env create -f imsearch-conda-env.yml
+conda activate imsearch-env
 ```
 
-3. Install the required dependencies given at:
+### 3. Run the Application
 
 ```sh
- imsearch-conda-env.yml
+python app.py
 ```
 
-4. Run:
+## Model Files
 
-```sh
-  python app.py
-```
+- `DINO` and `MobileNet` model files are required in the `models/` directory. These are used for feature extraction and similarity computation.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
